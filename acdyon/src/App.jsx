@@ -11,38 +11,43 @@ function App() {
   const [sourceStatus, setSourceStatus] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
 
-  const fetchJobs = useCallback(async () => {
+ const fetchJobs = async () => {
+  try {
     setLoading(true);
-    setError("");
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/jobs`);
+    const response = await fetch(
+      `${API_BASE_URL}/api/jobs`
+    );
 
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      setJobs(Array.isArray(data.jobs) ? data.jobs : []);
-      setSourceStatus(data.source || null);
-      setLastUpdated(data.fetchedAt || new Date().toISOString());
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Unable to load job listings."
-      );
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error("Failed to fetch jobs");
     }
-  }, []);
+
+    const data = await response.json();
+
+    console.log("Jobs received:", data.count);
+
+    // IMPORTANT:
+    // Replace existing jobs instead of appending
+    setJobs(
+      Array.isArray(data.jobs)
+        ? data.jobs
+        : []
+    );
+
+  } catch (error) {
+    console.error(
+      "Failed to load jobs:",
+      error
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
-    const refreshTimer = setTimeout(fetchJobs, 0);
-
-    return () => clearTimeout(refreshTimer);
-  }, [fetchJobs]);
+  fetchJobs();
+}, []);
 
   const jobCount = useMemo(() => jobs.length, [jobs]);
 

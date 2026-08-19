@@ -2,10 +2,18 @@
   min-height: 100vh;
 }
 
+/* =========================
+   CONTAINER
+========================= */
+
 .container {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 .header {
   border-bottom: 1px solid #e5e7eb;
@@ -33,6 +41,7 @@
 .brand-mark {
   width: 38px;
   height: 38px;
+  flex-shrink: 0;
   border-radius: 10px;
   display: grid;
   place-items: center;
@@ -53,6 +62,10 @@
   color: #6b7280;
 }
 
+/* =========================
+   BUTTONS
+========================= */
+
 .refresh-button,
 .primary-button,
 .secondary-button {
@@ -60,6 +73,8 @@
   border-radius: 10px;
   padding: 11px 16px;
   font-weight: 700;
+  cursor: pointer;
+
   transition:
     transform 160ms ease,
     opacity 160ms ease,
@@ -80,10 +95,27 @@
 .refresh-button:disabled,
 .primary-button:disabled {
   opacity: 0.6;
+  cursor: not-allowed;
 }
+
+.primary-button {
+  background: #111827;
+  color: white;
+}
+
+.secondary-button {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
   padding: 96px 0 80px;
+
   background:
     radial-gradient(
       circle at 80% 20%,
@@ -95,7 +127,7 @@
 
 .hero-content {
   display: grid;
-  grid-template-columns: 1.5fr 0.8fr;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.8fr);
   gap: 72px;
   align-items: center;
 }
@@ -135,16 +167,9 @@
   margin-top: 32px;
 }
 
-.primary-button {
-  background: #111827;
-  color: white;
-}
-
-.secondary-button {
-  background: white;
-  border: 1px solid #e5e7eb;
-  color: #111827;
-}
+/* =========================
+   STATUS CARD
+========================= */
 
 .status-card {
   padding: 24px;
@@ -152,12 +177,15 @@
   border-radius: 20px;
   background: white;
   box-shadow: 0 18px 50px rgba(17, 24, 39, 0.07);
+
+  min-width: 0;
 }
 
 .status-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   color: #6b7280;
   font-size: 13px;
   font-weight: 700;
@@ -166,6 +194,7 @@
 .status-dot {
   width: 9px;
   height: 9px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: #22c55e;
 }
@@ -214,6 +243,10 @@
   color: #9ca3af;
 }
 
+/* =========================
+   SECTIONS
+========================= */
+
 .jobs-section,
 .architecture-section {
   padding: 88px 0;
@@ -241,84 +274,220 @@
   font-size: 14px;
 }
 
+/* =========================
+   JOB GRID
+========================= */
+
+/*
+  IMPORTANT FIX:
+  minmax(0, 1fr) prevents long job
+  descriptions/URLs from stretching
+  individual columns.
+*/
+
 .jobs-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
   gap: 18px;
+
+  width: 100%;
+  min-width: 0;
 }
 
+/* =========================
+   JOB CARD
+========================= */
+
 .job-card {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+
   padding: 24px;
+
   border: 1px solid #e5e7eb;
   border-radius: 18px;
+
   background: white;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
   transition:
     transform 180ms ease,
-    box-shadow 180ms ease;
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .job-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 45px rgba(17, 24, 39, 0.08);
+
+  box-shadow:
+    0 18px 45px rgba(17, 24, 39, 0.08);
+
+  border-color: #d1d5db;
 }
+
+/* =========================
+   JOB CARD TOP
+========================= */
 
 .job-card-top {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+
   gap: 12px;
+
   color: #9ca3af;
   font-size: 12px;
+
+  min-width: 0;
+}
+
+.job-card-top > * {
+  min-width: 0;
 }
 
 .job-type {
   color: #6366f1;
   font-weight: 800;
+
+  white-space: nowrap;
 }
 
+/* =========================
+   JOB TITLE
+========================= */
+
 .job-card h4 {
-  margin-top: 22px;
+  margin-top: 18px;
+
   font-size: 20px;
-  line-height: 1.25;
+  line-height: 1.3;
+
+  color: #111827;
+
+  /*
+    Prevent very long titles from
+    breaking the card.
+  */
+
+  overflow-wrap: anywhere;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
+
+/* =========================
+   COMPANY
+========================= */
 
 .company {
   margin-top: 10px;
+
   font-weight: 700;
+
+  color: #111827;
+
+  overflow-wrap: anywhere;
+
+  white-space: normal;
 }
+
+/* =========================
+   LOCATION
+========================= */
 
 .location {
   margin-top: 4px;
+
   color: #6b7280;
+
   font-size: 14px;
+
+  overflow-wrap: anywhere;
 }
+
+/* =========================
+   DESCRIPTION
+========================= */
 
 .description {
   display: -webkit-box;
+
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+
+  /*
+    Keep cards compact.
+  */
+  -webkit-line-clamp: 5;
+
   overflow: hidden;
+
   margin-top: 20px;
+
   color: #6b7280;
+
   font-size: 14px;
+
   line-height: 1.6;
+
+  /*
+    Very important because some
+    job descriptions contain URLs,
+    long words or unusual strings.
+  */
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
 }
+
+/* =========================
+   JOB LINK
+========================= */
 
 .job-link {
   display: inline-block;
-  margin-top: 24px;
+
+  margin-top: auto;
+  padding-top: 22px;
+
   font-size: 14px;
+
   font-weight: 800;
+
   color: #111827;
+
+  text-decoration: none;
 }
+
+.job-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   ERROR
+========================= */
 
 .error-banner {
   display: flex;
   align-items: center;
   gap: 12px;
+
   padding: 16px;
   margin-bottom: 24px;
+
   border: 1px solid #fecaca;
   border-radius: 12px;
+
   background: #fef2f2;
   color: #991b1b;
 }
@@ -332,11 +501,18 @@
   background: transparent;
   color: inherit;
   font-weight: 800;
+  cursor: pointer;
 }
+
+/* =========================
+   EMPTY STATE
+========================= */
 
 .empty-state {
   padding: 70px 20px;
+
   text-align: center;
+
   border: 1px dashed #d1d5db;
   border-radius: 18px;
 }
@@ -346,22 +522,40 @@
   color: #6b7280;
 }
 
+/* =========================
+   LOADING
+========================= */
+
 .loading-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
   gap: 18px;
 }
 
 .skeleton {
   min-height: 260px;
+  padding: 24px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+
+  background: white;
 }
 
 .skeleton-line {
   height: 14px;
+
   margin-bottom: 14px;
+
   border-radius: 6px;
+
   background: #eef0f3;
-  animation: pulse 1.2s ease-in-out infinite;
+
+  animation:
+    pulse 1.2s ease-in-out infinite;
 }
 
 .skeleton-line.short {
@@ -383,20 +577,32 @@
   }
 }
 
+/* =========================
+   ARCHITECTURE
+========================= */
+
 .architecture-section {
   background: #f6f7f9;
 }
 
 .architecture-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
   gap: 18px;
 }
 
 .architecture-card {
+  min-width: 0;
+
   padding: 26px;
+
   border-radius: 18px;
+
   background: white;
+
   border: 1px solid #e5e7eb;
 }
 
@@ -413,18 +619,33 @@
 
 .architecture-card p {
   margin-top: 12px;
+
   color: #6b7280;
+
   line-height: 1.7;
+
+  overflow-wrap: anywhere;
 }
+
+/* =========================
+   FOOTER
+========================= */
 
 .footer {
   padding: 28px 0;
+
   background: #111827;
+
   color: #9ca3af;
+
   font-size: 13px;
 }
 
-@media (max-width: 900px) {
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1000px) {
   .hero-content {
     grid-template-columns: 1fr;
   }
@@ -432,13 +653,21 @@
   .jobs-grid,
   .loading-grid,
   .architecture-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 620px) {
   .container {
-    width: min(100% - 28px, 1180px);
+    width: min(
+      100% - 28px,
+      1180px
+    );
   }
 
   .nav {
@@ -483,12 +712,16 @@
   }
 
   .section-heading {
-    align-items: start;
+    align-items: flex-start;
     flex-direction: column;
   }
 
   .error-banner {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .job-card {
+    padding: 20px;
   }
 }
