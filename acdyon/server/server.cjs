@@ -24,12 +24,7 @@ app.use(
 
 app.use(express.json());
 
-/*
- * Health check
- *
- * Used by Render or another hosting platform to determine
- * whether the backend is alive.
- */
+// Health check
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
@@ -81,9 +76,8 @@ app.get("/api/jobs", async (req, res) => {
   }
 });
 
-/*
- * Global error handler
- */
+// Global error handler
+ 
 app.use((error, req, res, next) => {
   console.error("Unhandled server error:", error);
 
@@ -93,9 +87,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-/*
- * Start server
- */
+ // Start server
 async function startServer() {
   try {
     await connectDatabase();
